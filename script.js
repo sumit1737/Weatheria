@@ -365,7 +365,7 @@ document.getElementById("ShowHide").addEventListener("click", function(){
       document.getElementById("graph-loading").innerHTML = "";
       container.scrollIntoView({behavior: 'smooth'});
     });
-    document.getElementById("graph-loading").innerHTML = "Loading...";
+    document.getElementById("graph-loading").innerHTML = "<div class='loader'></div>";
   }
   else{
     $("#chartBase").toggle();

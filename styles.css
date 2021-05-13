@@ -93,8 +93,8 @@ body {
 
 /* Card */
 .card {
-    /* background: #000000d0; */
-    background-image:  linear-gradient(135deg, #525558 0%, #19181a 74%);
+    background: #000000; 
+    /*background-image:  linear-gradient(135deg, #525558 0%, #19181a 74%);*/
     opacity: 0.99;
     color: white;
     padding: 2em;
