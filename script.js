@@ -38,16 +38,16 @@ let update = {
       var hr = day.getHours();
 
       if (hr >= 0 && hr < 12) {
-          Src = "Images/belowZeroM.jpg";
+          Src = "./Images/belowZeroM.jpg";
 
       } else if (hr >= 12 && hr <= 17) {
-          Src = "Images/belowZero.jpg"
+          Src = "./Images/belowZero.jpg"
       } else {
-          Src = "Images/belowZeroN.jpg"
+          Src = "./Images/belowZeroN.jpg"
       }
     }else if(type==="Fog"){
 
-      Src = "Images/FOG.jpg";
+      Src = "./Images/FOG.jpg";
       
     }else if(type==="Clear"){
 
@@ -55,12 +55,12 @@ let update = {
       var hr = day.getHours();
 
       if (hr >= 0 && hr < 12) {
-          Src = "Images/summerM.jpg";
+          Src = "./Images/summerM.jpg";
 
       } else if (hr >= 12 && hr <= 17) {
-          Src = "Images/summerE.jpg"
+          Src = "./Images/summerE.jpg"
       } else {
-          Src = "Images/clearN.jpg"
+          Src = "./Images/clearN.jpg"
       }
     }else if(type==="Clouds"){
       
@@ -68,11 +68,11 @@ let update = {
       var hr = day.getHours();
 
       if (hr >= 0 && hr < 17) {
-         Src = "Images/thunderStorm.jpg";
+         Src = "./Images/thunderStorm.jpg";
           
 
       }else {
-          Src = "Images/cloudyN.jpg"
+          Src = "./Images/cloudyN.jpg"
       }
     }
 
