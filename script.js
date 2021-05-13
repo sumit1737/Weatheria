@@ -63,17 +63,7 @@ let update = {
           Src = "./Images/clearN.jpg"
       }
     }else if(type==="Clouds"){
-      
-      var day = new Date();
-      var hr = day.getHours();
-
-      if (hr >= 0 && hr < 17) {
-         Src = "./Images/thunderStorm.jpg";
-          
-
-      }else {
-          Src = "./Images/cloudyN.jpg";
-      }
+      Src = "./Images/thunderStorm.jpg";
     }
 
     $("header").css("background","url("+Src+ ") no-repeat center/cover");
@@ -307,14 +297,165 @@ async function generateGraphs(place) {
   return true;
 }
 
-function graph(ctx, plots, styling, title, tooltipContent) {
+// function graph(ctx, plots, styling, title, tooltipContent) {
+//   let showTicks = true;
+//   let showGrid = false;
+//   let gridColor = 'rgba(0,0,0,1)';
+//   Chart.defaults.font.size = 16;
+//   Chart.defaults.borderColor = 'rgba(0,0,0,1)';
+
+//   let myChart = new Chart(ctx, {
+//     type: 'line',
+//     data: {
+//       labels: plots.xlabels,
+//       datasets: [{
+//         label: title.graphTitle,
+//         data: plots.ylabels,
+//         fill: false,
+//         backgroundColor: styling.backgroundColor,
+//         borderColor: styling.borderColor,
+//         borderWidth: 3,
+//         lineTension: 0.1,
+//         pointRadius: styling.radius,
+//         pointStyle: styling.pntStyle,
+//         type: 'line'
+//       }]
+//     },
+//     options: {
+//       plugins: {
+//         legend: {
+
+//           labels: {
+//             usePointStyle: true,
+//             color: gridColor
+//           }
+//         },
+//         tooltip: {
+//           usePointStyle: true,
+//           callbacks: {
+//             label: function (context) {
+              
+//               var label = context.dataset.label || '';
+//               if (label) {
+//                 label += ': ';
+//               }
+//               if (context.parsed.y !== null) {
+//                 label += context.parsed.y + '\xB0' + 'C';
+//               }
+//               return label;
+//             },
+
+//             afterLabel: function (context) {
+//               if (tooltipContent) return tooltipContent.tooltipFunc(context, tooltipContent.tooltipData);
+//             }
+
+
+//           }
+//         }
+//       },
+//       scales: {
+//         // Styling of x Axis
+//         x: {
+//           grid: {
+//             display: showTicks, // display the x grids or not
+//             drawBorder: true,
+//             drawOnChartArea: true,
+//             drawTicks: true,
+//             color: gridColor,
+//             drawOnChartArea: showGrid
+//           },
+//           title: {
+//             display: true,
+//             text: title.x,
+//             color: gridColor
+//           },
+//           ticks: {
+//             color: gridColor,
+//             // align: 'start',
+//             padding: 10
+
+//           }
+//         },
+//         //  Styling of y Axis
+//         y: {
+//           weight: 10,
+//           grid: {
+//             display: showTicks, // display the y grids or not
+//             drawBorder: true,
+//             drawOnChartArea: true,
+//             drawTicks: true,
+//             color: gridColor,
+//             drawOnChartArea: showGrid
+//           },
+//           title: {
+//             display: true,
+//             text: title.y,
+//             color: gridColor
+//           },
+//           ticks: {
+//             color: gridColor,
+//             padding: 10
+//           }
+//         }
+//       }
+//     }
+//   });
+//   ctx.style.display = "block";
+//   return myChart;
+// }
+
+
+function graph(cnv, plots, styling, title, tooltipContent) {
   let showTicks = true;
-  let showGrid = false;
+  let showGrid = false; // don't show grids on chart area
+  let showBorder = false; // don't show defalut border lines
   let gridColor = 'rgba(0,0,0,1)';
   Chart.defaults.font.size = 16;
+  Chart.defaults.font.weight = "6";
   Chart.defaults.borderColor = 'rgba(0,0,0,1)';
 
-  let myChart = new Chart(ctx, {
+  let scaleBgColor = "rgba(255,255,255,0.5)";
+
+  let ctx = cnv.getContext("2d");
+
+  // plugin to make scale background
+  Chart.register({
+    id: "scalecolor",
+    beforeDraw: function (chart, easing) {
+      if (chart.config.options.chartArea && chart.config.options.chartArea.backgroundColor && chart.config.options.chartArea.fullScale) {
+        var helpers = Chart.helpers;
+        var ctx = chart.ctx;
+        var chartArea = chart.chartArea;
+
+        ctx.save();
+
+        ctx.fillStyle = chart.config.options.chartArea.backgroundColor;
+        ctx.fillRect(chartArea.left, chartArea.top, chartArea.right - chartArea.left, chartArea.bottom - chartArea.top);
+        ctx.fillStyle = chart.config.options.chartArea.fullScale;
+        ctx.fillRect(0,0,chartArea.left,chartArea.bottom);
+        ctx.fillRect(0,chartArea.bottom,cnv.width,cnv.height-chartArea.bottom);
+
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = '#000000';
+
+        // y axis scale line
+        ctx.beginPath();
+        ctx.moveTo(chartArea.left,0);
+        ctx.lineTo(chartArea.left,chartArea.bottom);
+        ctx.stroke();
+
+        // x axis scale line
+        ctx.beginPath();
+        ctx.moveTo(chartArea.left,chartArea.bottom);
+        ctx.lineTo(cnv.width,chartArea.bottom);
+        ctx.stroke();
+        
+        ctx.restore();
+      }
+    }
+  });
+
+  let myChart = new Chart(cnv, {
     type: 'line',
     data: {
       labels: plots.xlabels,
@@ -368,7 +509,7 @@ function graph(ctx, plots, styling, title, tooltipContent) {
         x: {
           grid: {
             display: showTicks, // display the x grids or not
-            drawBorder: true,
+            drawBorder: showBorder,
             drawOnChartArea: true,
             drawTicks: true,
             color: gridColor,
@@ -391,7 +532,7 @@ function graph(ctx, plots, styling, title, tooltipContent) {
           weight: 10,
           grid: {
             display: showTicks, // display the y grids or not
-            drawBorder: true,
+            drawBorder: showBorder,
             drawOnChartArea: true,
             drawTicks: true,
             color: gridColor,
@@ -403,14 +544,19 @@ function graph(ctx, plots, styling, title, tooltipContent) {
             color: gridColor
           },
           ticks: {
+            textStrokeWidth : 1,
             color: gridColor,
-            padding: 10
+            padding: 10,
           }
         }
+      },
+      chartArea: {
+        backgroundColor: 'rgba(0,0,0,0)',
+        fullScale: scaleBgColor
       }
     }
   });
-  ctx.style.display = "block";
+  cnv.style.display = "block";
   return myChart;
 }
 
