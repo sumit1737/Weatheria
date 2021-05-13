@@ -146,19 +146,19 @@
         setTimeout(
             function () {
                 $(".wish-img").animate({
-                    height: '50px',
-                    width: '50px',
+                    height: '52px',
+                    width: '52px',
                 });
 
                 $("#wish-text").animate({
-                    fontSize: '40px',
+                    fontSize: '65px',
                 });
 
                 $(".wish-img").animate({
                 	left: '10px',
                 });
             }
-            , 2000);
+            , 1000);
 
         let ele = document.getElementById("wish-text");
         var day = new Date();
@@ -167,16 +167,16 @@
 
         let str = "";
         if (hr >= 0 && hr < 12) {
-            str = "<b>!Good Morning!</b>";
+            str = "<b>Good Morning!</b>";
             imgSrc = "./Images/Morning.png";
         } else if (hr == 12) {
-            str = "!Good Noon!";
+            str = "Good Noon!";
             imgSrc = "./Images/sleep.png"
-        } else if (hr >= 12 && hr <= 17) {
-            str = "<b>!Good Afternoon!</b>";
+        } else if (hr >= 12 && hr <= 16) {
+            str = "<b>Good Afternoon!</b>";
             imgSrc = "./Images/sleep.png"
         } else {
-            str = "<b>!Good Evening!</b>";
+            str = "<b>Good Evening!</b>";
             imgSrc = "./Images/Night.png"
         }
         ele.innerHTML = "<img style='transform: rotateY(180deg);' class='wish-img greeting' src=" + imgSrc + "> " + str + " <img class='wish-img greeting' src=" + imgSrc + ">";
