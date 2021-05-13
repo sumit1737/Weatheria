@@ -72,12 +72,11 @@ let update = {
           
 
       }else {
-          Src = "./Images/cloudyN.jpg"
+          Src = "./Images/cloudyN.jpg";
       }
     }
 
     $("header").css("background","url("+Src+ ") no-repeat center/cover");
-      
   
 
 
