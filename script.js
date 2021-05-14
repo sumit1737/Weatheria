@@ -62,7 +62,7 @@ let update = {
       } else {
           Src = "./Images/clearN.jpg"
       }
-    }else if(type==="Clouds"){
+    }else{
       Src = "./Images/thunderStorm.jpg";
     }
 
